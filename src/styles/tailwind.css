@@ -1,0 +1,13 @@
+/* src/assets/css/tailwind.css*/
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .all-in-center {
+    @apply flex justify-center items-center h-screen;
+  }
+  .nav__link {
+    @apply text-xl;
+  }
+}
