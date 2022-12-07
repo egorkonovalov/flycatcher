@@ -27,7 +27,9 @@ jobs:
             else
             npm i
             fi
-        - run: npm run build
+
+        - name: Build
+          run: npm run build
 
 
         - name: Deploy
