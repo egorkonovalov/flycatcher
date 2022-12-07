@@ -5,3 +5,16 @@ eleventyNavigation:
   key: Blog
   order: 2
 ---
+
+<section class="all-in-center">
+  <ul>
+    {%- for post in collections.post -%}
+      <li class="flex gap-5">
+        <a href="{{ post.url | url }}">
+          <span class="font-medium">{{ post.data.title }}</span>
+        </a>
+        <span class="text-stone-400">{{ post.date | postDate }}</span>
+      </li>
+    {%- endfor -%}
+  </ul>
+</section>
