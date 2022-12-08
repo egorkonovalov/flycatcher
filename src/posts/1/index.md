@@ -80,4 +80,4 @@ let filterForNumbers: Filter<number> = (arr, func) => {
 } // <--- OK!
 ```
 
-This was a simple example of how to achieve polymorphism using generic types in TypeScript. This is only a small piece of abilities that generics can give us for making our code explicit and error-proven.
+This was a simple example of how to achieve polymorphism using generic types in TypeScript. This is only a small piece of abilities that generics can give us for making our code explicit and error-prone.
