@@ -41,7 +41,9 @@ type Filter = {
   <T>(arr: T[], f: (item: T) => boolean): T[]
 }
 
-let filter: Filter = (arr, func) => {}
+let filter: Filter = (arr, func) => {
+  ```function code```
+}
 
 filter(['a', 'ab', 'abc', 'abcd'], x => x.length > 2) // returns ['abc', 'abcd']
 
@@ -69,9 +71,13 @@ type Filter<T> = {
 Now you *must* declare which type will be substituted in for every T in your signature, otherwise the compiler will throw an error:
 
 ```ts
-let filter: Filter = (arr, func) => {} // Generic type 'Filter' requires 1 type argument(s).
+let filter: Filter = (arr, func) => {
+  ```function code```
+} // <--- Generic type 'Filter' requires 1 type argument(s).
 
-let filterForNumbers: Filter<number> = (arr, func) => {} // OK!
+let filterForNumbers: Filter<number> = (arr, func) => {
+  ```function code```
+} // <--- OK!
 ```
 
 This was a simple example of how to achieve polymorphism using generic types in TypeScript. This is only a small piece of abilities that generics can give us for making our code explicit and error-proven.
