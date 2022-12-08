@@ -420,10 +420,11 @@ video {
 }
 
 h2 {
-  font-family: VT323;
+  margin-top: 1.25rem;
+  margin-bottom: 1.25rem;
+  font-family: Orbitron;
   font-size: 1.875rem;
   line-height: 2.25rem;
-  line-height: 2;
 }
 
 p {
@@ -597,7 +598,7 @@ section {
 }
 
 .font-display {
-  font-family: VT323;
+  font-family: Orbitron;
 }
 
 .text-5xl {
