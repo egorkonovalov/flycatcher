@@ -48,7 +48,9 @@ filter(['a', 'ab', 'abc', 'abcd'], x =&gt; x.length &gt; 2) // returns ['abc', '
   &lt;T&gt;(arr: T[], f: (item: T) =&gt; boolean): T[]
 }
 
-let filter: Filter = (arr, func) =&gt; {}
+let filter: Filter = (arr, func) =&gt; {
+  ```function code```
+}
 
 filter(['a', 'ab', 'abc', 'abcd'], x =&gt; x.length &gt; 2) // returns ['abc', 'abcd']
 
@@ -69,9 +71,13 @@ filter(cars, x =&gt; x.mark.startsWith('T')) // returns [{ &quot;mark&quot;: &qu
 }
 </code></pre>
 <p>Now you <em>must</em> declare which type will be substituted in for every T in your signature, otherwise the compiler will throw an error:</p>
-<pre><code class="language-ts">let filter: Filter = (arr, func) =&gt; {} // Generic type 'Filter' requires 1 type argument(s).
+<pre><code class="language-ts">let filter: Filter = (arr, func) =&gt; {
+  ```function code```
+} // &lt;--- Generic type 'Filter' requires 1 type argument(s).
 
-let filterForNumbers: Filter&lt;number&gt; = (arr, func) =&gt; {} // OK!
+let filterForNumbers: Filter&lt;number&gt; = (arr, func) =&gt; {
+  ```function code```
+} // &lt;--- OK!
 </code></pre>
 <p>This was a simple example of how to achieve polymorphism using generic types in TypeScript. This is only a small piece of abilities that generics can give us for making our code explicit and error-proven.</p>
 
