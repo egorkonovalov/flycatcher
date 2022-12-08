@@ -7,7 +7,7 @@ date: Last Modified
 
 ## {{ title }}
 
-Concrete types in TypeScript are the pillars of the language. You literally can't go anywhere without letting the compiler now that `myDogAge` is going to be a `number` and `myFriendsBirthdays` will be nothing but a `Date[]`. Concrete types are helpful when you are certain about the type you're expecting to use in your function. But sometimes it's better if the function accepts several types, still being type safe.
+Concrete types in TypeScript are the pillars of the language. You literally can't go anywhere without letting the compiler now that **`myDogAge`** is going to be a **`number`** and **`myFriendsBirthdays`** will be nothing but a **`Date[]`**. Concrete types are helpful when you are certain about the type you're expecting to use in your function. But sometimes it's better if the function accepts several types, still being type safe.
 
 Say you want to write a function which returns a new array with values that satisfy some rule. That's how you would do it in JS:
 
@@ -58,7 +58,7 @@ let cars = [
 filter(cars, x => x.mark.startsWith('T')) // returns [{ "mark": "Toyouta"}]
 ```
 
-What happens above is that we are saying TypeScript that the type of the argument which the function accepts can be anything. Wait... "anything"? Doesn't it contradicts the type safety? In fact, it doesn't. While it seems like we have blured the lines between types for this function, we actually have asked TypeScript to infer what T is for a given call to filter and substitute that type in for every T it sees. As strict as possible!
+What happens above is that we are saying to TypeScript that the type of the argument which the function accepts can be anything. Wait... "anything"? Doesn't it contradicts the type safety? In fact, it doesn't. While it seems like we have blured the lines between types for this function, we actually have asked TypeScript to infer what T is for a given call to filter and substitute that type in for every T it sees. As strict as possible!
 
 Or is it? Well, we can make it more strict and place an alias for a generic type rigth after the type name in the type declaration:
 

@@ -3,7 +3,7 @@ module.exports = {
   content: ["./src/**/*.{njk,md}", "./src/**/*.svg",],
   theme: {
     fontFamily: {
-      'display': ['VT323'],
+      'display': ['Orbitron'],
       'body': ['poppins']
     },
     extend: {},
