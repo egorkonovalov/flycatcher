@@ -1,0 +1,155 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/flycatcher/styles.css">
+
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https:///prismjs@v1.x/themes/prism.css" rel="stylesheet"/>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet">
+    <title>5 TS Compiler Flags You Should Include In Your Project&#39;s Config</title>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap');
+    </style>
+    <link href="https://unpkg.com/prismjs@1.20.0/themes/prism-okaidia.css" rel="stylesheet">
+  </head>
+  <body>
+    <main>
+      
+<section class="grid grid-cols-3">
+  <article class="prose prose-lg col-span-3 md:col-start-2 md:col-span-1 py-10">
+    <h2>5 TS Compiler Flags You Should Include In Your Project's Config</h2>
+<p>A newly released major update of TypeScript 5.0 introduced a lot of significant changes like <a href="https://www.typescriptlang.org/docs/handbook/release-notes/typescript-5-0.html#decorators">stable decorators</a>, regular enums replaced with <a href="https://www.typescriptlang.org/docs/handbook/release-notes/typescript-5-0.html#all-enums-are-union-enums">union enums</a> and many others. Reading throught release notes however I stumbled upon new compiler options which I found smart yet I asked myself: Is there any reason to set up your custom compiler settings? A short answer - yes.</p>
+<p>To be honest, I've never set up <code>tscongig.json</code> for myself before. Most of us, developers, are just fine with default configs in any environment or a framework we use for building our projects. These configs are time-tested and designed to satisfy the demands of both comfort development and safety. For most cases this is true but while we don't bother about how our tool works, we're probably missing an opportunity to make our work more comfortable.</p>
+<p>Thus, I introduce you to 5 TypeSctipt compiler flags which I belevie can improve your development experience.</p>
+<h3><code>noImplicitOverride: true</code></h3>
+<p>This option is very helpful when working with inheritance. For instance, imagine you develop a game where the base class <code>Human</code>, who can heal himself for only one point at a time, is extended by the class <code>Warlock</code> who can do this for a dozen of points instantly (because he has some supernatural power, obviously).</p>
+<pre class="language-ts"><code class="language-ts"><span class="token keyword">class</span> <span class="token class-name">Human</span> <span class="token punctuation">{</span>
+ <span class="token function">heal</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">this</span><span class="token punctuation">.</span>health<span class="token operator">++</span>
+ <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">class</span> <span class="token class-name">Warlock</span> <span class="token keyword">extends</span> <span class="token class-name">Human</span> <span class="token punctuation">{</span>
+ <span class="token function">heal</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">this</span><span class="token punctuation">.</span>health <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>health <span class="token operator">+</span> <span class="token number">10</span>
+ <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>After refactoring the <code>Human</code> class so that he can restore the whole stats at once (like energy, hunger, fatigue) you rename your method to <code>restoreStats</code>:</p>
+<pre class="language-ts"><code class="language-ts"><span class="token keyword">class</span> <span class="token class-name">Human</span> <span class="token punctuation">{</span>
+ <span class="token function">restoreStats</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">class</span> <span class="token class-name">Warlock</span> <span class="token keyword">extends</span> <span class="token class-name">Human</span> <span class="token punctuation">{</span>
+ <span class="token function">heal</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">// and what about the warlocks?</span>
+ <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>In this situation the Warlock's method <code>heal</code> gets out of sync without <em>any warning</em> from the compiler. But when you have <code>noImplicitOverride</code> enabled you can see the error telling you that the method must have an <code>override</code> modifier:</p>
+<pre class="language-ts"><code class="language-ts"><span class="token keyword">class</span> <span class="token class-name">Human</span> <span class="token punctuation">{</span>
+ <span class="token function">heal</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">class</span> <span class="token class-name">Warlock</span> <span class="token keyword">extends</span> <span class="token class-name">Human</span> <span class="token punctuation">{</span>
+  override <span class="token function">heal</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">class</span> <span class="token class-name">Witch</span> <span class="token keyword">extends</span> <span class="token class-name">Human</span> <span class="token punctuation">{</span>
+  <span class="token function">heal</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+ <span class="token comment">// Error: This member must have an 'override' modifier</span>
+ <span class="token comment">// because it overrides a member in the base class 'Human'.</span>
+<span class="token punctuation">}</span></code></pre>
+<p><img src="./images/override.png" alt="img"></p>
+<blockquote>
+<p>When a method [on a child class] is marked with override, TypeScript will always make sure that a method with the same name exists in the base class. (<a href="https://www.typescriptlang.org/docs/handbook/release-notes/typescript-4-3.html">TypeScript docs</a>)</p>
+</blockquote>
+<h3><code>noUncheckedIndexedAccess: true</code></h3>
+<p>In TypeScript there is a way to describe an object with indefinite keys. This is a really nice feature which lets us not to be bound to known-only list of properties for our object.</p>
+<p>Imagine you have an interface for a game settings file which you can fetch with the <code>getGameSettings</code> method. We know that tere must be at least two known properties in this object: the <strong>difficulty</strong> of the game and the <strong>graphics</strong> preset:</p>
+<pre class="language-ts"><code class="language-ts"><span class="token keyword">interface</span> <span class="token class-name">GameSettings</span> <span class="token punctuation">{</span>
+  difficulty<span class="token operator">:</span> <span class="token string">"easy"</span> <span class="token operator">|</span> <span class="token string">"medium"</span> <span class="token operator">|</span> <span class="token string">"hard"</span><span class="token punctuation">;</span>
+  graphics<span class="token operator">:</span> <span class="token string">"performace"</span> <span class="token operator">|</span> <span class="token string">"balanced"</span> <span class="token operator">|</span> <span class="token string">"quality"</span>
+
+  <span class="token comment">// Unknown properties are covered by this index signature.</span>
+  <span class="token punctuation">[</span>key<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">]</span><span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">const</span> settings<span class="token operator">:</span> GameSettings <span class="token operator">=</span> <span class="token function">getSettings</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token builtin">console</span><span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>config<span class="token punctuation">.</span>difficulty<span class="token punctuation">)</span> <span class="token comment">// 'easy'</span>
+<span class="token builtin">console</span><span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>config<span class="token punctuation">.</span>graphics<span class="token punctuation">)</span> <span class="token comment">// 'balanced'</span></code></pre>
+<p>Ok, say we know that there might be another property like <code>player</code> and we expect it to be a string, but how can we be certain that this property even exists?</p>
+<pre class="language-ts"><code class="language-ts"><span class="token keyword">const</span> <span class="token function-variable function">greet</span> <span class="token operator">=</span> <span class="token punctuation">(</span>name<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token builtin">console</span><span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">Welcome, </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>name<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span>
+<span class="token function">greet</span><span class="token punctuation">(</span>config<span class="token punctuation">.</span>player<span class="token punctuation">)</span> <span class="token comment">// settings.player is considered a string, no warnings</span></code></pre>
+<p>So basicaly we need the TypeScript compiler to remind us about this blind spot and this is what <code>noUncheckedIndexedAccess</code> setting to <code>true</code> does:</p>
+<pre class="language-ts"><code class="language-ts"><span class="token function">greet</span><span class="token punctuation">(</span>config<span class="token punctuation">.</span>player<span class="token punctuation">)</span> <span class="token comment">// Error: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.</span></code></pre>
+<p>Neat, isn't it? Now the compiler warns us that unknown property may not exist and we should check its validity first:</p>
+<pre class="language-ts"><code class="language-ts"><span class="token keyword">if</span> <span class="token punctuation">(</span>config<span class="token punctuation">.</span>player<span class="token punctuation">)</span> <span class="token function">greet</span><span class="token punctuation">(</span>config<span class="token punctuation">.</span>player<span class="token punctuation">)</span> <span class="token comment">// Ok.</span></code></pre>
+<h3><code>noPropertyAccessFromIndexSignature: true</code></h3>
+<p>In addition to the previous example there might be one another improvement which adds some style consitency in the way we work with object properties. With the <code>noPropertyAccessFromIndexSignature</code> set to <code>true</code> it becomes clear that the dot notation must be used only with defined fields e.g., <code>settings.difficulty</code> and indexed synax can be used on both known and unknown properties:</p>
+<pre class="language-ts"><code class="language-ts"><span class="token comment">// noPropertyAccessFromIndexSignature: false</span>
+<span class="token keyword">const</span> currentGameDifficulty <span class="token operator">=</span> settings<span class="token punctuation">.</span>difficulty
+<span class="token keyword">const</span> player <span class="token operator">=</span> settings<span class="token punctuation">.</span>player <span class="token comment">// Ok</span>
+
+<span class="token comment">// noPropertyAccessFromIndexSignature: true</span>
+<span class="token keyword">const</span> player <span class="token operator">=</span> settings<span class="token punctuation">.</span>player <span class="token comment">// Error: Property 'player' comes from an index signature, so it must be accessed with ['player'].</span></code></pre>
+<p>This is just the nice way to standartise the code style in your project using compiler settings.</p>
+<h3><code>allowUnreachableCode: false</code></h3>
+<p>In the example below, the <code>else</code> block inside the function <code>isVillian</code> will never be executed. If neither condition is true, the function will return <code>true</code> in the first if block. Therefore, the else block that contains the <code>console.log()</code> statement will never be reached:</p>
+<pre class="language-ts"><code class="language-ts"><span class="token comment">// Checks if the hero is villian by the level of his kindness</span>
+<span class="token keyword">function</span> <span class="token function">isVillian</span><span class="token punctuation">(</span>kindness<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token builtin">boolean</span> <span class="token punctuation">{</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>kindness <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>kindness <span class="token operator">></span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+    <span class="token comment">// This block of code will never be executed</span>
+    <span class="token builtin">console</span><span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"This line will never be reached."</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>Your IDE most likely will show you a warning next to unreachable block, but without <code>allowUnreachableCode</code> set to <code>false</code> your code still will be complied. Though there's a fat chance for a bug or a performance issue to pop up at runtime, unreachable code can confuse developers who are reading or maintain your codebase. It can make the code harder to understand and follow the logic.</p>
+<h3><code>noFallthroughCasesInSwitch: true</code></h3>
+<p>This option forces your compiler to check for fallthrough cases in switch statements so you must include either <code>break</code>, <code>return</code>, or <code>throw</code> after each case. This will prevent you from getting a case fallthrough bug at runtime:</p>
+<pre class="language-ts"><code class="language-ts"><span class="token keyword">function</span> <span class="token function">handleGameState</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token keyword">void</span> <span class="token punctuation">{</span>
+  <span class="token keyword">switch</span> <span class="token punctuation">(</span>currentGameState<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">case</span> GameState<span class="token punctuation">.</span>MainMenu<span class="token operator">:</span>
+      <span class="token function">showMainMenu</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// Error: Fallthrough case in switch.</span>
+    <span class="token keyword">case</span> GameState<span class="token punctuation">.</span>Playing<span class="token operator">:</span>
+      <span class="token function">startGame</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">break</span><span class="token punctuation">;</span>
+    <span class="token keyword">case</span> GameState<span class="token punctuation">.</span>Paused<span class="token operator">:</span>
+      <span class="token function">pauseGame</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">break</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>However it's still safe to write multiple case clauses associated with single code block statement:</p>
+<pre class="language-ts"><code class="language-ts"><span class="token keyword">function</span> <span class="token function">handleGameState</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token keyword">void</span> <span class="token punctuation">{</span>
+  <span class="token keyword">switch</span> <span class="token punctuation">(</span>currentGameState<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">case</span> GameState<span class="token punctuation">.</span>MainMenu<span class="token operator">:</span>
+    <span class="token keyword">case</span> GameState<span class="token punctuation">.</span>Playing<span class="token operator">:</span>
+      <span class="token function">playMusic</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">break</span><span class="token punctuation">;</span>
+    <span class="token keyword">case</span> GameState<span class="token punctuation">.</span>Paused<span class="token operator">:</span>
+      <span class="token function">pauseMusic</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">break</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<h3>Conclusion</h3>
+<p>By leveraging these compiler settings, you can enhance the safety, readability, and maintainability of your codebase. While the default configurations are well-tested and reliable, taking the time to explore and fine-tune the compiler settings can offer valuable insights and optimizations. However it's essential to strike a balance between convenience and customization, try to discuss the style you are going to use with your team and construct the environment which is enjoyed by all 😉.</p>
+
+    <p class="text-sm text-right mt-10">Egor Konovalov. 7/10/2023</p>
+  </article>
+</section>
+
+    </main>
+    <script src="https:///prismjs@v1.x/components/prism-core.min.js"></script>
+    <script src="https:///prismjs@v1.x/plugins/autoloader/prism-autoloader.min.js"></script>
+  </body>
+</html>

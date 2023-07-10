@@ -9,89 +9,81 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-    
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
-    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
-
+    <link href="https:///prismjs@v1.x/themes/prism.css" rel="stylesheet"/>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet">
     <title>Polymorphism and Generic Types</title>
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap');
     </style>
+    <link href="https://unpkg.com/prismjs@1.20.0/themes/prism-okaidia.css" rel="stylesheet">
   </head>
   <body>
     <main>
       
 <section class="grid grid-cols-3">
-  <article
-    class="col-span-3 md:col-start-2 md:col-span-1">
-    
+  <article class="prose prose-lg col-span-3 md:col-start-2 md:col-span-1 py-10">
     <h2>Polymorphism and Generic Types</h2>
 <p>Concrete types in TypeScript are the pillars of the language. You literally can't go anywhere without letting the compiler now that <strong><code>myDogAge</code></strong> is going to be a <strong><code>number</code></strong> and <strong><code>myFriendsBirthdays</code></strong> will be nothing but a <strong><code>Date[]</code></strong>. Concrete types are helpful when you are certain about the type you're expecting to use in your function. But sometimes it's better if the function accepts several types, still being type safe.</p>
 <p>Say you want to write a function which returns a new array with values that satisfy some rule. That's how you would do it in JS:</p>
-<pre><code class="language-js">function filter(arr, func) {
-  let result = []
-  for (let i in arr) {
-    let item = arr[i]
-    if (func(item)) {
-      result.push(item)
-    }
-  }
-  return result
-}
+<pre class="language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">filter</span><span class="token punctuation">(</span><span class="token parameter">arr<span class="token punctuation">,</span> func</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">let</span> result <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+  <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> i <span class="token keyword">in</span> arr<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">let</span> item <span class="token operator">=</span> arr<span class="token punctuation">[</span>i<span class="token punctuation">]</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">func</span><span class="token punctuation">(</span>item<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      result<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>item<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">return</span> result
+<span class="token punctuation">}</span>
 
-filter(['a', 'ab', 'abc', 'abcd'], x =&gt; x.length &gt; 2) // returns ['abc', 'abcd']
-</code></pre>
+<span class="token function">filter</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">'a'</span><span class="token punctuation">,</span> <span class="token string">'ab'</span><span class="token punctuation">,</span> <span class="token string">'abc'</span><span class="token punctuation">,</span> <span class="token string">'abcd'</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token parameter">x</span> <span class="token operator">=></span> x<span class="token punctuation">.</span>length <span class="token operator">></span> <span class="token number">2</span><span class="token punctuation">)</span> <span class="token comment">// returns ['abc', 'abcd']</span></code></pre>
 <p>Since we want it to be type-proven, let's limit the signature with a concrete type:</p>
-<pre><code class="language-ts">type Filter = {
-  (arr: string[], f: (item: string) =&gt; boolean): string[]
-}
-</code></pre>
+<pre class="language-ts"><code class="language-ts"><span class="token keyword">type</span> <span class="token class-name">Filter</span> <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token punctuation">(</span>arr<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token function-variable function">f</span><span class="token operator">:</span> <span class="token punctuation">(</span>item<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token builtin">boolean</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span>
+<span class="token punctuation">}</span></code></pre>
 <p>Alright, that's type-proven and... yet too concrete. What if we want to filter numbers or objects? Of course we can use <strong>generic type</strong>!</p>
-<pre><code class="language-ts">type Filter = {
-  &lt;T&gt;(arr: T[], f: (item: T) =&gt; boolean): T[]
-}
+<pre class="language-ts"><code class="language-ts"><span class="token keyword">type</span> <span class="token class-name">Filter</span> <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token operator">&lt;</span><span class="token constant">T</span><span class="token operator">></span><span class="token punctuation">(</span>arr<span class="token operator">:</span> <span class="token constant">T</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token function-variable function">f</span><span class="token operator">:</span> <span class="token punctuation">(</span>item<span class="token operator">:</span> <span class="token constant">T</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token builtin">boolean</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token constant">T</span><span class="token punctuation">[</span><span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
 
-let filter: Filter = (arr, func) =&gt; {
-  ```function code```
-}
+<span class="token keyword">let</span> filter<span class="token operator">:</span> <span class="token function-variable function">Filter</span> <span class="token operator">=</span> <span class="token punctuation">(</span>arr<span class="token punctuation">,</span> func<span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token template-punctuation string">`</span></span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">function code</span><span class="token template-punctuation string">`</span></span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token template-punctuation string">`</span></span>
+<span class="token punctuation">}</span>
 
-filter(['a', 'ab', 'abc', 'abcd'], x =&gt; x.length &gt; 2) // returns ['abc', 'abcd']
+<span class="token function">filter</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">'a'</span><span class="token punctuation">,</span> <span class="token string">'ab'</span><span class="token punctuation">,</span> <span class="token string">'abc'</span><span class="token punctuation">,</span> <span class="token string">'abcd'</span><span class="token punctuation">]</span><span class="token punctuation">,</span> x <span class="token operator">=></span> x<span class="token punctuation">.</span>length <span class="token operator">></span> <span class="token number">2</span><span class="token punctuation">)</span> <span class="token comment">// returns ['abc', 'abcd']</span>
 
-filter([1, 2, 3, 4], x =&gt; x &gt; 2) // returns [3, 4]
+<span class="token function">filter</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">,</span> x <span class="token operator">=></span> x <span class="token operator">></span> <span class="token number">2</span><span class="token punctuation">)</span> <span class="token comment">// returns [3, 4]</span>
 
-let cars = [
-  {mark: 'Toyouta'},
-  {mark: 'Ford'},
-  {mark: 'Lada'}
-]
+<span class="token keyword">let</span> cars <span class="token operator">=</span> <span class="token punctuation">[</span>
+  <span class="token punctuation">{</span>mark<span class="token operator">:</span> <span class="token string">'Toyouta'</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span>mark<span class="token operator">:</span> <span class="token string">'Ford'</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span>mark<span class="token operator">:</span> <span class="token string">'Lada'</span><span class="token punctuation">}</span>
+<span class="token punctuation">]</span>
 
-filter(cars, x =&gt; x.mark.startsWith('T')) // returns [{ &quot;mark&quot;: &quot;Toyouta&quot;}]
-</code></pre>
+<span class="token function">filter</span><span class="token punctuation">(</span>cars<span class="token punctuation">,</span> x <span class="token operator">=></span> x<span class="token punctuation">.</span>mark<span class="token punctuation">.</span><span class="token function">startsWith</span><span class="token punctuation">(</span><span class="token string">'T'</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment">// returns [{ "mark": "Toyouta"}]</span></code></pre>
 <p>What happens above is that we are saying to TypeScript that the type of the argument which the function accepts can be anything. Wait... &quot;anything&quot;? Doesn't it contradicts the type safety? In fact, it doesn't. While it seems like we have blured the lines between types for this function, we actually have asked TypeScript to infer what T is for a given call to filter and substitute that type in for every T it sees. As strict as possible!</p>
 <p>Or is it? Well, we can make it more strict and place an alias for a generic type rigth after the type name in the type declaration:</p>
-<pre><code class="language-ts">type Filter&lt;T&gt; = {
-  (arr: T[], f: (item: T) =&gt; boolean): T[]
-}
-</code></pre>
+<pre class="language-ts"><code class="language-ts"><span class="token keyword">type</span> <span class="token class-name">Filter<span class="token operator">&lt;</span><span class="token constant">T</span><span class="token operator">></span></span> <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token punctuation">(</span>arr<span class="token operator">:</span> <span class="token constant">T</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token function-variable function">f</span><span class="token operator">:</span> <span class="token punctuation">(</span>item<span class="token operator">:</span> <span class="token constant">T</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token builtin">boolean</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token constant">T</span><span class="token punctuation">[</span><span class="token punctuation">]</span>
+<span class="token punctuation">}</span></code></pre>
 <p>Now you <em>must</em> declare which type will be substituted in for every T in your signature, otherwise the compiler will throw an error:</p>
-<pre><code class="language-ts">let filter: Filter = (arr, func) =&gt; {
-  ```function code```
-} // &lt;--- Generic type 'Filter' requires 1 type argument(s).
+<pre class="language-ts"><code class="language-ts"><span class="token keyword">let</span> filter<span class="token operator">:</span> <span class="token function-variable function">Filter</span> <span class="token operator">=</span> <span class="token punctuation">(</span>arr<span class="token punctuation">,</span> func<span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token template-punctuation string">`</span></span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">function code</span><span class="token template-punctuation string">`</span></span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token template-punctuation string">`</span></span>
+<span class="token punctuation">}</span> <span class="token comment">// &lt;--- Generic type 'Filter' requires 1 type argument(s).</span>
 
-let filterForNumbers: Filter&lt;number&gt; = (arr, func) =&gt; {
-  ```function code```
-} // &lt;--- OK!
-</code></pre>
+<span class="token keyword">let</span> filterForNumbers<span class="token operator">:</span> Filter<span class="token operator">&lt;</span><span class="token builtin">number</span><span class="token operator">></span> <span class="token operator">=</span> <span class="token punctuation">(</span>arr<span class="token punctuation">,</span> func<span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token template-punctuation string">`</span></span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">function code</span><span class="token template-punctuation string">`</span></span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token template-punctuation string">`</span></span>
+<span class="token punctuation">}</span> <span class="token comment">// &lt;--- OK!</span></code></pre>
 <p>This was a simple example of how to achieve polymorphism using generic types in TypeScript. This is only a small piece of abilities that generics can give us for making our code explicit and error-prone.</p>
 
+    <p class="text-sm text-right mt-10">Egor Konovalov. 7/10/2023</p>
   </article>
 </section>
 
     </main>
+    <script src="https:///prismjs@v1.x/components/prism-core.min.js"></script>
+    <script src="https:///prismjs@v1.x/plugins/autoloader/prism-autoloader.min.js"></script>
   </body>
-  <script>
-    hljs.highlightAll();
-  </script>
 </html>
