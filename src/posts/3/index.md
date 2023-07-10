@@ -9,7 +9,7 @@ date: Last Modified
 
 A newly released major update of TypeScript 5.0 introduced a lot of significant changes like [stable decorators](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-5-0.html#decorators), regular enums replaced with [union enums](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-5-0.html#all-enums-are-union-enums) and many others. Reading throught release notes however I stumbled upon new compiler options which I found smart yet I asked myself: Is there any reason to set up your custom compiler settings? A short answer - yes.
 
-To be honest, I've never set up `tscongig.json` for myself before. Most of us, developers, are just fine with default configs in any environment or a framework we use for building our projects. These configs are time-tested and designed to satisfy the demands of both comfort development and safety. For most cases this is true but while we don't bother about how our tool works, we're probably missing an opportunity to make our work more comfortable.
+To be honest, I've never set up `tsconfig.json` for myself before. Most of us, developers, are just fine with default configs in any environment or a framework we use for building our projects. These configs are time-tested and designed to satisfy the demands of both comfort development and safety. For most cases this is true but while we don't bother about how our tool works, we're probably missing an opportunity to make our work more comfortable.
 
 Thus, I introduce you to 5 TypeSctipt compiler flags which I belevie can improve your development experience.
 
