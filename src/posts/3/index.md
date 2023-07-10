@@ -124,11 +124,11 @@ This is just the nice way to standartise the code style in your project using co
 
 ### `allowUnreachableCode: false`
 
-In the example below, the `else` block inside the function `isVillian` will never be executed. If neither condition is true, the function will return `true` in the first if block. Therefore, the else block that contains the `console.log()` statement will never be reached:
+In the example below, the `else` block inside the function `isVillain` will never be executed. If neither condition is true, the function will return `true` in the first if block. Therefore, the else block that contains the `console.log()` statement will never be reached:
 
 ```ts
-// Checks if the hero is villian by the level of his kindness
-function isVillian(kindness: number): boolean {
+// Checks if the hero is Villain by the level of his kindness
+function isVillain(kindness: number): boolean {
   if (kindness < 0) {
     return true;
   } else if (kindness > 0) {
