@@ -4,9 +4,8 @@ title: Post
 ---
 
 <section class="grid grid-cols-3">
-  <article
-    class="col-span-3 md:col-start-2 md:col-span-1">
-    {# {{ page.date | postDate }} #}
+  <article class="prose prose-lg col-span-3 md:col-start-2 md:col-span-1 py-10">
     {{ content | safe }}
+    <p class="text-sm text-right mt-10">Egor Konovalov. {{ page.date | postDate }}</p>
   </article>
 </section>
