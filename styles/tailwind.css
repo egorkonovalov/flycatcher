@@ -1,0 +1,25 @@
+/* src/assets/css/tailwind.css*/
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  h2 {
+    @apply font-display text-3xl my-5;
+  }
+  p {
+    @apply font-body leading-relaxed my-4;
+  }
+  section {
+    @apply mx-4 md:mx-0;
+  }
+}
+
+@layer components {
+  .all-in-center {
+    @apply flex justify-center items-center h-screen;
+  }
+  .nav__link {
+    @apply text-xl;
+  }
+}
