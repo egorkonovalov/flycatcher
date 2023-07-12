@@ -131,13 +131,12 @@ In the example below, the `else` block inside the function `isVillain` will neve
 function isVillain(kindness: number): boolean {
   if (kindness < 0) {
     return true;
-  } else if (kindness > 0) {
-    return false;
   } else {
-    // This block of code will never be executed
-    console.log("This line will never be reached.");
     return false;
   }
+  // This block of code will never be executed
+  console.log("This line will never be reached.");
+  return false;
 }
 ```
 
