@@ -106,13 +106,12 @@
 <span class="token keyword">function</span> <span class="token function">isVillain</span><span class="token punctuation">(</span>kindness<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token builtin">boolean</span> <span class="token punctuation">{</span>
   <span class="token keyword">if</span> <span class="token punctuation">(</span>kindness <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
     <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
-  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>kindness <span class="token operator">></span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
   <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
-    <span class="token comment">// This block of code will never be executed</span>
-    <span class="token builtin">console</span><span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"This line will never be reached."</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
   <span class="token punctuation">}</span>
+  <span class="token comment">// This block of code will never be executed</span>
+  <span class="token builtin">console</span><span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"This line will never be reached."</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
 <p>Your IDE most likely will show you a warning next to unreachable block, but without <code>allowUnreachableCode</code> set to <code>false</code> your code still will be complied. Though there's a fat chance for a bug or a performance issue to pop up at runtime, unreachable code can confuse developers who are reading or maintain your codebase. It can make the code harder to understand and follow the logic.</p>
 <h3><code>noFallthroughCasesInSwitch: true</code></h3>
@@ -144,7 +143,7 @@
 <h3>Conclusion</h3>
 <p>By leveraging these compiler settings, you can enhance the safety, readability, and maintainability of your codebase. While the default configurations are well-tested and reliable, taking the time to explore and fine-tune the compiler settings can offer valuable insights and optimizations. However it's essential to strike a balance between convenience and customization, try to discuss the style you are going to use with your team and construct the environment which is enjoyed by all 😉.</p>
 
-    <p class="text-sm text-right mt-10">Egor Konovalov. 7/11/2023</p>
+    <p class="text-sm text-right mt-10">Egor Konovalov. 7/12/2023</p>
   </article>
 </section>
 
